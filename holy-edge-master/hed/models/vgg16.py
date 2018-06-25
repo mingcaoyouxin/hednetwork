@@ -217,7 +217,6 @@ class Vgg16():
         pred = tf.cast(tf.greater(fuse_output, 0.5), tf.int32, name='predictions')
         error = tf.cast(tf.not_equal(pred, tf.cast(self.edgemaps, tf.int32)), tf.float32)
         self.error = tf.reduce_mean(error, name='pixel_error')
-
         tf.summary.scalar('loss', self.loss)
         tf.summary.scalar('error', self.error)
 

@@ -1,9 +1,21 @@
 import os
 import yaml
-import wget
+try:
+    import wget
+except:
+    os.system("pip install wget")
+
+try:
+    from pyunpack import Archive
+except:
+    os.system("pip install pyunpack")
+
+try:
+    from termcolor import colored
+except:
+    os.system("pip install termcolor")
 from pyunpack import Archive
 from time import strftime, localtime
-from termcolor import colored
 
 
 class IO():

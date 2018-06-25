@@ -1,6 +1,9 @@
 import os
 import sys
-import yaml
+try:
+    import yaml
+except:
+    os.system('pip install yaml')
 import argparse
 import tensorflow as tf
 from termcolor import colored
@@ -69,13 +72,14 @@ class HEDTrainer():
             run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
             run_metadata = tf.RunMetadata()
 
-            _, summary, loss = session.run([train, self.model.merged_summary, self.model.loss],
+            _, summary, loss,error = session.run([train, self.model.merged_summary, self.model.loss,self.model.error],
                                            feed_dict={self.model.images: im, self.model.edgemaps: em},
                                            options=run_options,
                                            run_metadata=run_metadata)
 
             self.model.train_writer.add_run_metadata(run_metadata, 'step{:06}'.format(idx))
             self.io.print_info('[{}/{}] TRAINING loss : {}'.format(idx, self.cfgs['max_iterations'], loss))
+            self.io.print_info('[{}/{}] TRAINING error : {}'.format(idx, self.cfgs['max_iterations'], error))
 
             if idx % 10 == 0:
                 self.model.train_writer.add_summary(summary, idx)
